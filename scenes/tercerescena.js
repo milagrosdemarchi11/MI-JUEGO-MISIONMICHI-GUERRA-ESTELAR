@@ -26,7 +26,7 @@ export default class TerceraEscena extends Phaser.Scene {
     this.load.image("juntadelasers", "./public/assets/power.png");
     this.load.image("croquetas", "./public/assets/croquetas.png");
     this.load.image("naveajustes", "./public/assets/naveajustes")
-    this.load.image("ajustes", "./public/assets/ajustesdentrodepantalla")
+   
     this.load.audio("laseraudio", './public/assets/lasertp.wav');
     this.load.audio("explosionsonido", './public/assets/explosiontp.wav');
   }
@@ -217,6 +217,7 @@ export default class TerceraEscena extends Phaser.Scene {
     this.personaje.play("golpe_melee", true);
     this.estaGolpeando = true;
 
+
     //  Permitir golpear más rápido: no esperar a que termine la animación
     this.time.delayedCall(200, () => {
       this.estaGolpeando = false;
@@ -231,9 +232,11 @@ export default class TerceraEscena extends Phaser.Scene {
         this.textoFuerza.setText("Croquetas: " + this.fuerza);
        
 
-
+ 
+        const explosion = this.add.image(enemigo.x, enemigo.y, "explosion").setScale(0.2);
         this.time.delayedCall(300, () => explosion.destroy());
         enemigo.disableBody(true, true);
+           this.explosionSound.play(); 
         if (Phaser.Math.Between(0, 1) === 1) {
           const power = this.powers.create(enemigo.x, enemigo.y, "juntadelasers").setScale(2.5);
           power.setVelocityY(100);

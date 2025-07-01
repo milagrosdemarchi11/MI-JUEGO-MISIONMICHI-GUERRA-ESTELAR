@@ -25,7 +25,7 @@ export default class SegundaEscena extends Phaser.Scene {
     this.load.image("tiempo", "./public/assets/reloj.png");
     this.load.image("juntadelasers", "./public/assets/power.png");
     this.load.image("croquetas", "./public/assets/croquetas.png");
-    
+
     this.load.audio("laseraudio", './public/assets/lasertp.wav');
     this.load.audio("explosionsonido", './public/assets/explosiontp.wav');
   }
@@ -56,59 +56,59 @@ export default class SegundaEscena extends Phaser.Scene {
     this.powers = this.physics.add.group();
     this.croquetasGroup = this.physics.add.group();
 
-   this.eventoEnemigo1 = this.time.addEvent({
-  delay: 2000,
-  callback: () => {
-    if (!this.stop) {
-      let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
-      let enemigo = this.enemigos.create(x, -50, "enemigo1");
-      enemigo.setScale(4);
-      enemigo.setVelocityY(Phaser.Math.Between(150, 250));
-    }
-  },
-  callbackScope: this,
-  loop: true
-});
+    this.eventoEnemigo1 = this.time.addEvent({
+      delay: 2000,
+      callback: () => {
+        if (!this.stop) {
+          let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
+          let enemigo = this.enemigos.create(x, -50, "enemigo1");
+          enemigo.setScale(4);
+          enemigo.setVelocityY(Phaser.Math.Between(150, 250));
+        }
+      },
+      callbackScope: this,
+      loop: true
+    });
 
-  this.eventoEnemigo2 = this.time.addEvent({
-  delay: 3000,
-  callback: () => {
-    if (!this.stop) {
-      let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
-      let enemigo = this.enemigos.create(x, -50, "enemigo2");
-      enemigo.setScale(4);
-      enemigo.setVelocityY(Phaser.Math.Between(150, 250));
-    }
-  },
-  callbackScope: this,
-  loop: true
-});
+    this.eventoEnemigo2 = this.time.addEvent({
+      delay: 3000,
+      callback: () => {
+        if (!this.stop) {
+          let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
+          let enemigo = this.enemigos.create(x, -50, "enemigo2");
+          enemigo.setScale(4);
+          enemigo.setVelocityY(Phaser.Math.Between(150, 250));
+        }
+      },
+      callbackScope: this,
+      loop: true
+    });
     this.eventoEnemigo3 = this.time.addEvent({
-  delay: 6000,
-  callback: () => {
-    if (!this.stop) {
-      let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
-      let enemigo = this.enemigos.create(x, -50, "enemigo3");
-      enemigo.setScale(4);
-      enemigo.setVelocityY(Phaser.Math.Between(150, 250));
-    }
-  },
-  callbackScope: this,
-  loop: true
-});
+      delay: 6000,
+      callback: () => {
+        if (!this.stop) {
+          let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
+          let enemigo = this.enemigos.create(x, -50, "enemigo3");
+          enemigo.setScale(4);
+          enemigo.setVelocityY(Phaser.Math.Between(150, 250));
+        }
+      },
+      callbackScope: this,
+      loop: true
+    });
 
-   this.time.addEvent({
-  delay: 5000,
-  callback: () => {
-    if (this.stop) return; //  no crear croquetas si el juego está detenido
-    let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
-    let croqueta = this.croquetasGroup.create(x, -30, "croquetas");
-    croqueta.setVelocityY(100);
-    croqueta.setScale(2.5);
-  },
-  callbackScope: this,
-  loop: true
-});
+    this.time.addEvent({
+      delay: 5000,
+      callback: () => {
+        if (this.stop) return; //  no crear croquetas si el juego está detenido
+        let x = Phaser.Math.Between(100, this.sys.game.config.width - 100);
+        let croqueta = this.croquetasGroup.create(x, -30, "croquetas");
+        croqueta.setVelocityY(100);
+        croqueta.setScale(2.5);
+      },
+      callbackScope: this,
+      loop: true
+    });
 
     this.personaje = this.physics.add.sprite(width / 2, height - 110, "pocho");
     this.personaje.body.allowGravity = false;
@@ -122,7 +122,7 @@ export default class SegundaEscena extends Phaser.Scene {
     this.teclaA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.teclaD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.teclaJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
-    
+
 
     this.lasers = this.physics.add.group();
     this.ultimoDisparo = 0;
@@ -210,7 +210,7 @@ export default class SegundaEscena extends Phaser.Scene {
       }
     }
   }
-  
+
 
   dispararLaser() {
     const laser = this.lasers.create(this.personaje.x, this.personaje.y - 30, "laser");
@@ -236,6 +236,7 @@ export default class SegundaEscena extends Phaser.Scene {
     this.personaje.play("golpe_melee", true);
     this.estaGolpeando = true;
 
+
     //  Permitir golpear más rápido: no esperar a que termine la animación
     this.time.delayedCall(200, () => {
       this.estaGolpeando = false;
@@ -252,6 +253,7 @@ export default class SegundaEscena extends Phaser.Scene {
         const explosion = this.add.image(enemigo.x, enemigo.y, "explosion").setScale(0.2);
         this.time.delayedCall(300, () => explosion.destroy());
         enemigo.disableBody(true, true);
+        this.explosionSound.play(); // ← Sonido justo cuando explota
 
         if (Phaser.Math.Between(0, 1) === 1) {
           const power = this.powers.create(enemigo.x, enemigo.y, "juntadelasers").setScale(2.5);
@@ -291,7 +293,7 @@ export default class SegundaEscena extends Phaser.Scene {
     const explosion = this.add.image(enemigo.x, enemigo.y, "explosion");
     explosion.setScale(0.2);
     this.explosionSound.play(); // ← Sonido justo cuando explota
-    
+
     laser.destroy();
     enemigo.disableBody(true, true);
     /*this.puntaje += 10;
@@ -368,6 +370,6 @@ export default class SegundaEscena extends Phaser.Scene {
       }
     };
 
-  
+
   }
-   }
+}
