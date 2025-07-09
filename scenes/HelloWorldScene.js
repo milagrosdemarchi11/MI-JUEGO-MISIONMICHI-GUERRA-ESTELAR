@@ -237,7 +237,7 @@ export default class HelloWorldScene extends Phaser.Scene {
           );
           botonSiguiente.setInteractive({ useHandCursor: true });
           botonSiguiente.setScale(2.8);
-          botonSiguiente.setDepth(12); // ← ¡Esto asegura que esté adelante!
+          botonSiguiente.setDepth(12); // ¡Esto asegura que esté adelante!
 
           botonSiguiente.on("pointerdown", () => {
             this.scene.start("segundaescena")
@@ -339,7 +339,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   laserContraEnemigo(laser, enemigo) {
     const explosion = this.add.image(enemigo.x, enemigo.y, "explosion");
     explosion.setScale(0.2);
-    this.explosionSound.play(); // ← Sonido justo cuando explota
+    this.explosionSound.play(); // Sonido justo cuando explota
 
 
 
